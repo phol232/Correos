@@ -1,15 +1,6 @@
 {
-  "version": 2,
-  "builds": [
-    {
-      "src": "src/server.ts",
-      "use": "@vercel/node"
-    }
-  ],
-  "routes": [
-    {
-      "src": "/(.*)",
-      "dest": "src/server.ts"
-    }
+  "rewrites": [
+    { "source": "/api/email/send", "destination": "/api/send" },
+    { "source": "/api/email/health", "destination": "/api/health" }
   ]
 }
