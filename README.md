@@ -34,6 +34,28 @@ pnpm build
 pnpm start
 ```
 
+## Deploy en Vercel
+
+1. Instala Vercel CLI:
+```bash
+pnpm add -g vercel
+```
+
+2. Despliega:
+```bash
+vercel
+```
+
+3. Configura las variables de entorno en Vercel:
+   - Ve a tu proyecto en Vercel Dashboard
+   - Settings → Environment Variables
+   - Agrega: `BREVO_API_KEY`, `FROM_EMAIL`, `FROM_NAME`
+
+4. Redespliega si es necesario:
+```bash
+vercel --prod
+```
+
 ## Endpoints
 
 ### POST /api/email/send
@@ -75,7 +97,7 @@ Verifica el estado del servicio.
 ## Ejemplo de uso con curl
 
 ```bash
-curl -X POST http://localhost:3000/api/email/send \
+curl -X POST https://tu-proyecto.vercel.app/api/email/send \
   -H "Content-Type: application/json" \
   -d '{
     "to": "destinatario@ejemplo.com",

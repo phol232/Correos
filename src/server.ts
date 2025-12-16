@@ -7,21 +7,32 @@ const fastify = Fastify({
   logger: true,
 });
 
-async function start() {
-  try {
-    await fastify.register(cors, {
-      origin: true,
-    });
+async function build() {
+  await fastify.register(cors, {
+    origin: true,
+  });
 
-    await fastify.register(emailRoutes, { prefix: '/api/email' });
+  await fastify.register(emailRoutes, { prefix: '/api/email' });
 
-    await fastify.listen({ port: config.port, host: '0.0.0.0' });
-    
-    console.log(`🚀 Servidor corriendo en http://localhost:${config.port}`);
-  } catch (err) {
-    fastify.log.error(err);
-    process.exit(1);
-  }
+  return fastify;
 }
 
-start();
+// Para desarrollo local
+if (require.main === module) {
+  build().then(async (app) => {
+    try {
+      await app.listen({ port: config.port, host: '0.0.0.0' });
+      console.log(`🚀 Servidor corriendo en http://localhost:${config.port}`);
+    } catch (err) {
+      app.log.error(err);
+      process.exit(1);
+    }
+  });
+}
+
+// Para Vercel
+export default async (req: any, res: any) => {
+  const app = await build();
+  await app.ready();
+  app.server.emit('request', req, res);
+};
