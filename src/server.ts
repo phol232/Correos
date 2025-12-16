@@ -1,5 +1,7 @@
 import Fastify from 'fastify';
 import cors from '@fastify/cors';
+import fastifyStatic from '@fastify/static';
+import path from 'path';
 import { config } from './config/env';
 import { emailRoutes } from './routes/email.routes';
 
@@ -10,6 +12,11 @@ const fastify = Fastify({
 async function build() {
   await fastify.register(cors, {
     origin: true,
+  });
+
+  await fastify.register(fastifyStatic, {
+    root: path.join(__dirname, '../public'),
+    prefix: '/',
   });
 
   await fastify.register(emailRoutes, { prefix: '/api/email' });
