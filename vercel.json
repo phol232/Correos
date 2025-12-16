@@ -1,6 +1,15 @@
 {
-  "rewrites": [
-    { "source": "/api/email/send", "destination": "/api/send" },
-    { "source": "/api/email/health", "destination": "/api/health" }
+  "version": 2,
+  "builds": [
+    {
+      "src": "dist/server.js",
+      "use": "@vercel/node"
+    }
+  ],
+  "routes": [
+    {
+      "src": "/(.*)",
+      "dest": "dist/server.js"
+    }
   ]
 }
